@@ -24,6 +24,9 @@ public:
 
     void learn(const std::vector<my_vector<T>>&);
     void save_layer(int, std::string) const;
+    std::vector<T> get_cendroids() const {
+        return std::vector<T>{};
+    }
     
 private:
     int edge_dead_age_;
