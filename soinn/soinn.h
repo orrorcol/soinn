@@ -3,12 +3,12 @@
 
 #include <iostream>
 #include <cassert>
+#include <cstring>
 #include <initializer_list>
 #include <limits>
 #include <fstream>
 #include <vector>
 #include <string>
-#include <assert.h>
 
 #include "data_interface.h"
 #include "graph.h"
@@ -24,9 +24,7 @@ public:
 
     void learn(const std::vector<my_vector<T>>&);
     void save_layer(int, std::string) const;
-    std::vector<T> get_cendroids() const {
-        return std::vector<T>{};
-    }
+    std::vector<T> get_cendroids() const;
     
 private:
     int edge_dead_age_;
@@ -239,6 +237,26 @@ void soinn<T>::save_layer(int layer, std::string fname) const {
         ofs.write(node.second.weight.get_data(), node.second.weight.size());
     }
     ofs.close();
+}
+
+template<typename T>
+std::vector<T> soinn<T>::get_cendroids() const {
+    std::vector<T> res;
+
+    auto layer = max_layer_;
+    auto all_nodes = layers_[layer].get_nodes();
+    assert(!all_nodes.empty());
+    size_t dim = all_nodes.begin()->second.weight.get_dim();
+    size_t num = all_nodes.size() * dim;
+    res.resize(num);
+    char* ptr = (char*)(&res[0]);
+
+    for (auto node : all_nodes) {
+        memcpy(ptr, node.second.weight.get_data(), node.second.weight.size());
+        ptr += node.second.weight.size();
+    }
+
+    return res;
 }
 
 template<typename T>

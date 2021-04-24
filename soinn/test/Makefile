@@ -3,7 +3,7 @@ cc=g++
 wall=
 marco=-UDDUCH -Dno_debug_ -DUSE_THREAD -DDTYPE=float -DDDIM=2
 cppflags=$(marco) -std=c++14 -Ofast -pthread $(wall)
-h_path=-I../soinn
+h_path=-I../
 
 test_soinn : test_soinn.cpp 
 	$(cc) $(cppflags) $(h_path) $^ -o $@

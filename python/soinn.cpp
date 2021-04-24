@@ -34,11 +34,11 @@ py::object learn(
         ann::my_vector<float> tmp_vec(cols); 
         memcpy(tmp_vec.get_data(), ptr, sizeof(float) * cols);
         cpp_data.push_back(tmp_vec);
+        ptr += cols;
     }
 
     alg.learn(cpp_data);
     auto res = alg.get_cendroids();
-    res.resize(10 * cols, 3.6);
     rows = res.size() / cols;
     assert(rows * cols == res.size());
 
