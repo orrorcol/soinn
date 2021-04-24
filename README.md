@@ -1,6 +1,8 @@
 # soinn
 This is the repo for python package soinn.
 
+soinn is a blazing fast unsupervised clustering algorithm.
+
 ## install
 `
 pip install soinn
