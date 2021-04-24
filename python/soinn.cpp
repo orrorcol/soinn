@@ -6,8 +6,8 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 
-#include <soinn.h>
-#include <data_interface.h>
+#include "soinn.h"
+#include "data_interface.h"
 
 namespace py = pybind11;
 
