@@ -46,11 +46,6 @@ Here is a simple code using SOINN to learn cendroids of the input data
 
 
 ```python
-
-```
-
-
-
 from scipy.io import loadmat
 
 import matplotlib.pyplot as plt
@@ -86,9 +81,6 @@ plt.plot(clus[:,0], clus[:,1], '.')
 
 
 plt.show()
-
-```
-
 ```
 
 You can run it by:
