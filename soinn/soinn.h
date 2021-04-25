@@ -9,6 +9,7 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <utility>
 
 #include "data_interface.h"
 #include "graph.h"
@@ -24,7 +25,7 @@ public:
 
     void learn(const std::vector<my_vector<T>>&);
     void save_layer(int, std::string) const;
-    std::vector<T> get_cendroids() const;
+    std::pair<float*, size_t> get_cendroids() const;
     
 private:
     int edge_dead_age_;
@@ -80,6 +81,13 @@ soinn<T>::~soinn<T>() {
 
 template<typename T>
 void soinn<T>::learn(const std::vector<my_vector<T>>& weights) {
+    //int c = 10;
+    //while (c--) {
+    //    const auto& vec = weights[c];
+    //    float* pdata = (float*)(vec.get_data());
+    //    std::cout << *pdata++ << "," << *pdata << "\n";
+    //}
+
     std::cout << "Learning layer " << cur_layer_ << std::endl;
     _init({weights[0], weights[1]});
     for (size_t i = 2; i < weights.size(); ++i) {
@@ -240,23 +248,23 @@ void soinn<T>::save_layer(int layer, std::string fname) const {
 }
 
 template<typename T>
-std::vector<T> soinn<T>::get_cendroids() const {
-    std::vector<T> res;
-
+std::pair<float*, size_t> soinn<T>::get_cendroids() const {
     auto layer = max_layer_;
     auto all_nodes = layers_[layer].get_nodes();
     assert(!all_nodes.empty());
+
     size_t dim = all_nodes.begin()->second.weight.get_dim();
     size_t num = all_nodes.size() * dim;
-    res.resize(num);
-    char* ptr = (char*)(&res[0]);
+    float* buf = new T[num];
+
+    char* ptr = (char*)(buf);
 
     for (auto node : all_nodes) {
         memcpy(ptr, node.second.weight.get_data(), node.second.weight.size());
         ptr += node.second.weight.size();
     }
 
-    return res;
+    return std::make_pair(buf, num);
 }
 
 template<typename T>

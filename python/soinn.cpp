@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include <vector>
+#include <iostream>
 
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
@@ -39,18 +40,25 @@ py::object learn(
 
     alg.learn(cpp_data);
     auto res = alg.get_cendroids();
-    rows = res.size() / cols;
-    assert(rows * cols == res.size());
+    assert(res.first != nullptr);
+    //int c = 10;
+    //std::cout << "#####\n";
+    //while (c--) {
+    //    std::cout << res[c] << ",";
+    //}
+    //std::cout << std::endl;
 
-    py::capsule free_when_done(res.data(), [](void *f) { return; });
+    rows = res.second / cols;
+    assert(rows * cols == res.second);
+
+    py::capsule free_when_done(res.first, [](void *f) { delete []f; });
 
     return py::array_t<float>(
         {rows, cols},
         {cols * sizeof(float), sizeof(float)},
-        res.data(),
+        res.first,
         free_when_done);
 }
-
 
 PYBIND11_MODULE(soinn, m) {
     m.doc() = "pybind of soinn"; // optional module docstring
