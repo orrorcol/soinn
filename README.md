@@ -28,7 +28,7 @@ python -m build
 
 **input** : numpy array of shape (n, dim)
 
-**dead_age ** : the dead age of edges during the learning process, default 100
+**dead_age** : the dead age of edges during the learning process, default 100
 
 **lamda** : the number of iterations before removing noise, default 100
 
