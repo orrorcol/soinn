@@ -36,7 +36,8 @@ python -m build
 
 **num_layer** : the number of soinn layer, default 1
 
-**return** : return a one dimensional numpy array contaning all learned cendrioids
+**return** : return a numpy array contaning all learned cendrioids, shape (n1, dim) where
+n1 represents the number of cendrioids.
 
 
 
